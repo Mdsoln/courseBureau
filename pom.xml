@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>EvaluationBureau</groupId>
-	<artifactId>CourseEvalutaionSystem</artifactId>
+	<artifactId>CourseEvaluationSystem</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Course Evalutaion System</name>
+	<name>Course Evaluation System</name>
 	<description>Smart evaluation system used for student course evaluation</description>
 	<properties>
 		<java.version>21</java.version>
