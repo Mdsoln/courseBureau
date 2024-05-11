@@ -24,7 +24,7 @@ public class User {
     private Long userId;
 
     @Column(name = "reg_no", nullable = false)
-    private String userRegistrationNo;
+    private String userRegNo;
 
     @Column(nullable = false)
     private String email;
