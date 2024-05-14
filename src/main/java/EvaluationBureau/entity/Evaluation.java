@@ -26,6 +26,8 @@ public class Evaluation {
     )
     private Long evaluation_id;
 
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinColumn(name = "particular_id", referencedColumnName = "particularsId")
     private Particulars particulars;//(foreign key referencing the Particulars table)
 
     private String evaluation_type;//course or instructor evaluation

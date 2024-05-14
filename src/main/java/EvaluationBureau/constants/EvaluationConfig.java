@@ -3,14 +3,15 @@ package EvaluationBureau.constants;
 public class EvaluationConfig {
 
     //options, choices for evaluation
-    private static final String EXCELLENT = "Excellent";
-    private static final String VERY_GOOD = "Very Good";
-    private static final String SATISFACTORY = "Satisfactory";
-    private static final String POOR = "Poor";
-    private static final String VERY_POOR = "Very Poor";
-    private static final boolean SEXUAL_HARASSMENT_CODE = true;
+    public static final String EXCELLENT = "Excellent";
+    public static final String VERY_GOOD = "Very Good";
+    public static final String SATISFACTORY = "Satisfactory";
+    public static final String POOR = "Poor";
+    public static final String VERY_POOR = "Very Poor";
+    public static final String SEXUAL_HARASSMENT_CODE = "Instructor compiled with UDSM Sexual Harassment Code";
 
     //type of evaluation
-    private static final String INSTRUCTOR_EVALUATION = "instructor evaluation";
-    private static final String COURSE_EVALUATION = "course evaluation";
+    public static final String INSTRUCTOR_EVALUATION = "instructor evaluation";
+    public static final String COURSE_EVALUATION = "course evaluation";
+    public static final String COMMENT = "We need a smart university with current world technology in lecturing and lab tools";
 }

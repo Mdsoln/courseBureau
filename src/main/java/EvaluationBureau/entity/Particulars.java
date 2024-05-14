@@ -33,6 +33,9 @@ public class Particulars {
     @OneToMany(mappedBy = "particulars", cascade = CascadeType.PERSIST)
     private List<CourseEvaluation> courseEvaluation;
 
+    @OneToOne(mappedBy = "particulars", cascade = CascadeType.PERSIST)
+    private Evaluation evaluation;
+
     private String courseCode;
     private String courseTitle;
 
@@ -40,7 +43,7 @@ public class Particulars {
     private String instructorName;
 
     @Column(name = "venue", nullable = false)
-    private String lectureVenue;
+    private String lectureVenue;// DO1, B302 etc
 
     private int classSize;// total number of students in the class
     private String department;
@@ -51,6 +54,7 @@ public class Particulars {
     private LocalDate timestamp;//time of filling the form
     private String studentProgramme;// a student needs to specify which programme he/she is taking
     private String studyYear;//     I, II, III, IV
+    private String courseSemester; // First, Second
 
     @PrePersist
     public void onCreate(){

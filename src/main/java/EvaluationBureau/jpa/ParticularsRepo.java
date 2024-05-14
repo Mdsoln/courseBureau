@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ParticularsRepo extends JpaRepository<Particulars,Long> {
 
+    Particulars findByCourseCode(String courseCode);
 }
