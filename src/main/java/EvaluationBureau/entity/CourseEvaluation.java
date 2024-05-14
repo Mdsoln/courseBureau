@@ -3,6 +3,7 @@ package EvaluationBureau.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -38,4 +39,11 @@ public class CourseEvaluation {
     private String linkTheoryPractise;//how well did the course link theory and practise
     private String seminarsTutorials;//how adequate were the tutorials, seminars or practicals
     private String courseRelevance;//how do you rate the relevance of the course to meet your expectations
+
+    private LocalDate timestamp;//time of filling course evaluation form
+
+    @PrePersist
+    public void onCreate(){
+        this.timestamp = LocalDate.now();
+    }
 }

@@ -4,6 +4,8 @@ import EvaluationBureau.constants.BureauRoles;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
@@ -37,4 +39,11 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private BureauRoles userRoles;
+
+    private LocalDate timestamp;//registered date and time
+
+    @PrePersist
+    public void onCreate(){
+        this.timestamp = LocalDate.now();
+    }
 }
