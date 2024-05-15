@@ -57,4 +57,20 @@ public class EvaluationController {
         );
     }
 
+
+    @PostMapping("/course-evaluation")
+    public ResponseEntity<String> courseEvaluation(
+          @RequestParam(name = "courseCode", required = false)  String courseCode,
+          @RequestParam(name = "courseObjective", required = false)  String courseObjective,
+          @RequestParam(name = "contentCoverage", required = false)  String contentCoverage,
+          @RequestParam(name = "assessmentMode", required = false)  String assessmentMode,
+          @RequestParam(name = "teachingMethods", required = false)  String teachingMethods,
+          @RequestParam(name = "updateLectureNotes", required = false)  String updateLectureNotes,
+          @RequestParam(name = "linkTheoryPractise", required = false)  String linkTheoryPractise,
+          @RequestParam(name = "seminarsTutorials", required = false)  String seminarsTutorials,
+          @RequestParam(name = "courseRelevance", required = false)  String courseRelevance
+    ){
+        return evaluationService.saveCourseEvaluation(courseCode,courseObjective,contentCoverage,assessmentMode,
+                teachingMethods,updateLectureNotes,linkTheoryPractise,seminarsTutorials,courseRelevance);
+    }
 }

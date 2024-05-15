@@ -2,9 +2,11 @@ package EvaluationBureau.service;
 
 import EvaluationBureau.constants.EvaluationConfig;
 import EvaluationBureau.constants.NotFoundExceptions;
+import EvaluationBureau.entity.CourseEvaluation;
 import EvaluationBureau.entity.Evaluation;
 import EvaluationBureau.entity.InstructorEvaluation;
 import EvaluationBureau.entity.Particulars;
+import EvaluationBureau.jpa.CourseEvaluationRepo;
 import EvaluationBureau.jpa.EvaluationRepo;
 import EvaluationBureau.jpa.InstructorEvaluationRepo;
 import EvaluationBureau.jpa.ParticularsRepo;
@@ -20,12 +22,14 @@ public class EvaluationServiceImpl implements EvaluationService {
     private final ParticularsRepo particularsRepo;
     private final InstructorEvaluationRepo instructorEvaluationRepo;
     private final EvaluationRepo evaluationRepo;
+    private final CourseEvaluationRepo courseEvaluationRepo;
 
 
     @Override
-    public ResponseEntity<String> saveParticulars(String courseCode, String courseTitle, String instructorName,
-                                                  String lectureVenue, int classSize, String department,
-                                                  String courseCollege, String studentProgramme, String studyYear, String courseSemester)
+    public ResponseEntity<String> saveParticulars(
+            String courseCode, String courseTitle, String instructorName,
+            String lectureVenue, int classSize, String department,
+            String courseCollege, String studentProgramme, String studyYear, String courseSemester)
     {
         Particulars particulars = Particulars.builder()
                 .courseCode(courseCode)
@@ -45,7 +49,12 @@ public class EvaluationServiceImpl implements EvaluationService {
     }
 
     @Override
-    public ResponseEntity<String> saveInstructorEvaluation(String courseCode, String preparation, String possession, String deliveryMode, String timeManagement, String fairnessGrading, String feedbackAssignment,String instructorAttendance, String consultationAvailability, String interactWithStudent, String competencyRate, String sexualHarassmentCode) {
+    public ResponseEntity<String> saveInstructorEvaluation(
+            String courseCode, String preparation, String possession, String deliveryMode,
+            String timeManagement, String fairnessGrading, String feedbackAssignment,
+            String instructorAttendance, String consultationAvailability, String interactWithStudent,
+            String competencyRate, String sexualHarassmentCode)
+    {
         try {
             Particulars particulars = particularsRepo.findByCourseCode(courseCode);
             if (particulars == null){
@@ -80,6 +89,45 @@ public class EvaluationServiceImpl implements EvaluationService {
              evaluationRepo.save(evaluation);
 
             return ResponseEntity.ok("Saved instructor evaluations");
+        }catch (NotFoundExceptions notFoundExceptions){
+            throw new NotFoundExceptions(notFoundExceptions.getMessage());
+        }
+
+    }
+
+    @Override
+    public ResponseEntity<String> saveCourseEvaluation(
+            String courseCode, String courseObjective, String contentCoverage,
+            String assessmentMode, String teachingMethods, String updateLectureNotes,
+            String linkTheoryPractise, String seminarsTutorials, String courseRelevance)
+    {
+        try {
+            Particulars particulars = particularsRepo.findByCourseCode(courseCode);
+            if (particulars == null){
+                throw new NotFoundExceptions("Oops! required  particulars");
+            }
+
+            CourseEvaluation courseEvaluation = CourseEvaluation.builder()
+                    .courseObjective(courseObjective)
+                    .contentCoverage(contentCoverage)
+                    .assessmentMode(assessmentMode)
+                    .teachingMethods(teachingMethods)
+                    .updateLectureNotes(updateLectureNotes)
+                    .linkTheoryPractise(linkTheoryPractise)
+                    .seminarsTutorials(seminarsTutorials)
+                    .courseRelevance(courseRelevance)
+                    .particulars(particulars)
+                    .build();
+            courseEvaluationRepo.save(courseEvaluation);
+
+            Evaluation evaluation = Evaluation.builder()
+                    .particulars(particulars)
+                    .evaluation_type(EvaluationConfig.COURSE_EVALUATION)
+                    .comments(EvaluationConfig.COMMENT)
+                    .build();
+            evaluationRepo.save(evaluation);
+
+        return ResponseEntity.ok("Saved course evaluation");
         }catch (NotFoundExceptions notFoundExceptions){
             throw new NotFoundExceptions(notFoundExceptions.getMessage());
         }
