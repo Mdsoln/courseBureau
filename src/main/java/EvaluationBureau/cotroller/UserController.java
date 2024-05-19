@@ -1,5 +1,7 @@
 package EvaluationBureau.cotroller;
 
+import EvaluationBureau.models.AuthResponse;
+import EvaluationBureau.models.LoginRequest;
 import EvaluationBureau.models.UserModel;
 import EvaluationBureau.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +22,10 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserModel payload){
         return userService.registerUser(payload);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request){
+       return userService.signIn(request);
     }
 }

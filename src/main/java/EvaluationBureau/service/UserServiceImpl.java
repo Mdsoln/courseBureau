@@ -4,10 +4,18 @@ import EvaluationBureau.constants.BureauRoles;
 import EvaluationBureau.constants.EmailException;
 import EvaluationBureau.entity.User;
 import EvaluationBureau.jpa.UserRepository;
+import EvaluationBureau.jwt.JwtService;
+import EvaluationBureau.models.AuthResponse;
+import EvaluationBureau.models.LoginRequest;
 import EvaluationBureau.models.UserModel;
 import EvaluationBureau.service.inter.BaseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +23,9 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements BaseService {
 
     private final UserRepository repository;
+    private final JwtService jwtService;
+    private  final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
 
 
     @Override
@@ -28,7 +39,7 @@ public class UserServiceImpl implements BaseService {
         user.setEmail(payload.getEmail());
         user.setUserRegNo(payload.getRegNo());
         user.setMobileNumber(payload.getMobile());
-        user.setPassword(payload.getPassword());
+        user.setPassword(passwordEncoder.encode(payload.getPassword()));
         if (payload.getRegNo().startsWith("20") || payload.getRegNo().contains("-04-")){
             user.setUserRoles(BureauRoles.STUDENT);
         } else if (payload.getEmail().contains("udsm@gmail.com")) {
@@ -37,5 +48,25 @@ public class UserServiceImpl implements BaseService {
         repository.save(user);
 
         return ResponseEntity.ok("Registered successfully");
+    }
+
+    @Override
+    public ResponseEntity<AuthResponse> signIn(LoginRequest request) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUsername(),
+                            request.getPassword()
+                    )
+            );
+            var user = repository.findByEmail(request.getUsername());
+            var token = jwtService.generateToken(user);
+            return ResponseEntity.ok(AuthResponse.builder().token(token).build());
+        }catch (AuthenticationException handleExceptions){
+            AuthResponse error = AuthResponse.builder()
+                    .token("Error: "+handleExceptions.getMessage())
+                    .build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+        }
     }
 }
