@@ -89,7 +89,7 @@ public class UserServiceImpl implements BaseService {
     @Override
     public String editPassword(String oldMobile, String newMobile) {
         try {
-            User user = repository.findByMobilePhone(oldMobile);
+            User user = repository.MobileNumber(oldMobile);
             if (user == null){
                 throw new EmailException("Oops! email mismatches with existing");
             }

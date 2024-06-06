@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthFilter jwtAuthenticationFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -24,12 +25,12 @@ public class SecurityConfig {
                 disable()
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/api/user/**")
+                                .requestMatchers("/user/**")
                                 .permitAll()
-                                .requestMatchers("/api/v1/evaluation/**").hasRole("STUDENT")
-                                .requestMatchers("/api/v1/instructor/**").hasRole("INSTRUCTOR")
-                                .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/api/v1/").hasAnyRole("MANAGER","ADMIN")
+                                .requestMatchers("/evaluation/**").hasRole("STUDENT")
+                                .requestMatchers("/instructor/**").hasRole("INSTRUCTOR")
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/").hasAnyRole("MANAGER","ADMIN")
                                 .anyRequest()
                                 .authenticated()
                 ).sessionManagement(
