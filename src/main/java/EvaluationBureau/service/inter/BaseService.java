@@ -9,4 +9,9 @@ public interface BaseService {
     ResponseEntity<String> registerUser(UserModel payload);
 
     ResponseEntity<AuthResponse> signIn(LoginRequest request);
+
+    String editEmail(String oldEmail, String newEmail);
+
+    String editPassword(String oldMobile, String newMobile);
+
 }
