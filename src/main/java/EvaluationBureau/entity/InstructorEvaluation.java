@@ -4,8 +4,7 @@ package EvaluationBureau.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -43,10 +42,10 @@ public class InstructorEvaluation {
     private String competencyRate;// how do you rate the competency of the instructor to meet your learning satisfaction
     private String sexualHarassmentCode;// Instructor observed or compiled with UDSM Sexual Harassment Code? for No, there should be extra answers
 
-    private LocalDate timestamp;//time of filling instructor evaluation form
+    private LocalDateTime timestamp;//time of filling instructor evaluation form
 
     @PrePersist
     public void onCreate(){
-        this.timestamp = LocalDate.now();
+        this.timestamp = LocalDateTime.now().withNano(0);
     }
 }

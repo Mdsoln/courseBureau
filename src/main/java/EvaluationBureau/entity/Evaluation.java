@@ -3,7 +3,7 @@ package EvaluationBureau.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @NoArgsConstructor
@@ -31,7 +31,11 @@ public class Evaluation {
     private Particulars particulars;//(foreign key referencing the Particulars table)
 
     private String evaluation_type;//course or instructor evaluation
-    private LocalDate timestamp;//(date and time the evaluation was submitted)
+    private LocalDateTime timestamp;//(date and time the evaluation was submitted)
     private String comments;//(optional: allows students to provide open-ended feedback)
 
+    @PrePersist
+    public void onCreate(){
+        this.timestamp = LocalDateTime.now().withNano(0);
+    }
 }

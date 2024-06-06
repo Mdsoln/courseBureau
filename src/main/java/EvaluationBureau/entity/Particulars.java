@@ -4,7 +4,7 @@ package EvaluationBureau.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -51,13 +51,13 @@ public class Particulars {
     @Column(name = "college", nullable = false)
     private String courseCollege;//college/school/institute
 
-    private LocalDate timestamp;//time of filling the form
+    private LocalDateTime timestamp;//time of filling the form
     private String studentProgramme;// a student needs to specify which programme he/she is taking
     private String studyYear;//     I, II, III, IV
     private String courseSemester; // First, Second
 
     @PrePersist
     public void onCreate(){
-        this.timestamp = LocalDate.now();
+        this.timestamp = LocalDateTime.now().withNano(0);
     }
 }
