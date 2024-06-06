@@ -104,4 +104,3 @@ public class UserServiceImpl implements BaseService {
 }
 //todo: edit password for student
 //todo: report generation evaluation analysis ie instructor and course analysis
-//todo: sexual harassment field to be omitted
