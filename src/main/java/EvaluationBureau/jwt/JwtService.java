@@ -1,5 +1,6 @@
 package EvaluationBureau.jwt;
 
+import EvaluationBureau.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -61,6 +62,7 @@ public class JwtService {
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", userDetails.getAuthorities());
+        claims.put("userID", ((User) userDetails).getUserRegNo()); // Add userRegNo to the claims
         return Jwts
                 .builder()
                 .setClaims(claims)
