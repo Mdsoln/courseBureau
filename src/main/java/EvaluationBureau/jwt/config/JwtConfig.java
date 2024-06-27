@@ -24,7 +24,7 @@ public class JwtConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        return userRepo::findByEmail;
+        return userRepo::findByRegistration;
     }
 
     @Bean

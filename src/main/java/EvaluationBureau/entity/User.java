@@ -31,7 +31,7 @@ public class User implements UserDetails {
     private Long userId;
 
     @Column(name = "reg_no", nullable = false)
-    private String userRegNo;
+    private String registration;
 
     @Column(nullable = false)
     private String email;
@@ -59,7 +59,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userRegNo;
+        return registration;
     }
 
     @Override
