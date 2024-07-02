@@ -1,7 +1,6 @@
 package EvaluationBureau.cotroller;
 
 import EvaluationBureau.constants.EmailException;
-import EvaluationBureau.constants.NotFoundExceptions;
 import EvaluationBureau.models.AuthResponse;
 import EvaluationBureau.models.LoginRequest;
 import EvaluationBureau.models.UserModel;
@@ -11,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+@CrossOrigin()
 @RestController
 @RequestMapping(path = "/user")
 @RequiredArgsConstructor
@@ -19,16 +20,20 @@ public class UserController {
     private final UserServiceImpl userService;
 
 
+    @CrossOrigin()
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserModel payload){
         return userService.registerUser(payload);
     }
 
+    @CrossOrigin()
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request){
        return userService.signIn(request);
     }
 
+
+    @CrossOrigin()
     @PostMapping("/edit-email")
     public ResponseEntity<String> editEmail(
             @RequestParam(name = "oldEmail", required = false) String oldEmail,
@@ -51,6 +56,7 @@ public class UserController {
         }
     }
 
+    @CrossOrigin()
     @PostMapping("/edit-mobile")
     public ResponseEntity<String> editMobile(
             @RequestParam(name = "oldMobile", required = false) String oldMobile,

@@ -1,6 +1,7 @@
 package EvaluationBureau.service;
 
 import EvaluationBureau.constants.EvaluationConfig;
+import EvaluationBureau.constants.HandleExceptions;
 import EvaluationBureau.constants.NotFoundExceptions;
 import EvaluationBureau.entity.CourseEvaluation;
 import EvaluationBureau.entity.Evaluation;
@@ -12,6 +13,9 @@ import EvaluationBureau.jpa.InstructorEvaluationRepo;
 import EvaluationBureau.jpa.ParticularsRepo;
 import EvaluationBureau.service.inter.EvaluationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -132,5 +136,14 @@ public class EvaluationServiceImpl implements EvaluationService {
             throw new NotFoundExceptions(notFoundExceptions.getMessage());
         }
 
+    }
+
+    @Override
+    public Page<Object[]> getParticulars(Pageable pages) {
+        try {
+            return evaluationRepo.findParticulars(pages);
+        }catch (DataAccessException exception){
+            throw new HandleExceptions(exception.getMessage());
+        }
     }
 }

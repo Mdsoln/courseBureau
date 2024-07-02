@@ -1,6 +1,5 @@
 package EvaluationBureau.jwt.config;
 
-import EvaluationBureau.jwt.config.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +26,7 @@ public class SecurityConfig {
                         auth -> auth
                                 .requestMatchers("/user/**")
                                 .permitAll()
-                                .requestMatchers("/evaluation/**").hasRole("STUDENT")
+                                .requestMatchers("/evaluation/**").permitAll()
                                 .requestMatchers("/instructor/**").hasRole("INSTRUCTOR")
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/").hasAnyRole("MANAGER","ADMIN")

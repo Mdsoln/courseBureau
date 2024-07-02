@@ -1,6 +1,8 @@
 package EvaluationBureau.service.inter;
 
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 public interface EvaluationService {
@@ -11,4 +13,6 @@ public interface EvaluationService {
     ResponseEntity<String> saveInstructorEvaluation(String courseCode, String preparation, String possession, String deliveryMode, String timeManagement, String fairnessGrading,String instructorAttendance, String feedbackAssignment, String consultationAvailability, String interactWithStudent, String competencyRate, String sexualHarassmentCode);
 
     ResponseEntity<String> saveCourseEvaluation(String courseCode, String courseObjective, String contentCoverage, String assessmentMode, String teachingMethods, String updateLectureNotes, String linkTheoryPractise, String seminarsTutorials, String courseRelevance);
+
+    Page<Object[]> getParticulars(Pageable pages);
 }

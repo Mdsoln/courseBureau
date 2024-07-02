@@ -1,15 +1,20 @@
 package EvaluationBureau.cotroller;
 
 
+import EvaluationBureau.constants.HandleExceptions;
+import EvaluationBureau.constants.NotFoundExceptions;
+import EvaluationBureau.models.PageResponse;
 import EvaluationBureau.service.EvaluationServiceImpl;
-import EvaluationBureau.service.inter.EvaluationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin()
 @RestController
 @RequestMapping(path = "/evaluation")
 @RequiredArgsConstructor
@@ -17,6 +22,7 @@ public class EvaluationController {
 
     private final EvaluationServiceImpl evaluationService;
 
+    @CrossOrigin()
     @PostMapping("/particulars")
     public ResponseEntity<String> particulars(
        @RequestParam(name = "courseCode", required = false) String courseCode,
@@ -35,6 +41,7 @@ public class EvaluationController {
                 classSize,department,courseCollege,studentProgramme,studyYear,courseSemester);
     }
 
+    @CrossOrigin()
     @PostMapping("/instructor-evaluation")
     public ResponseEntity<String> instructorEvaluation(
             @RequestParam(name = "courseCode", required = false) String courseCode,
@@ -58,6 +65,7 @@ public class EvaluationController {
     }
 
 
+    @CrossOrigin()
     @PostMapping("/course-evaluation")
     public ResponseEntity<String> courseEvaluation(
           @RequestParam(name = "courseCode", required = false)  String courseCode,
@@ -72,5 +80,32 @@ public class EvaluationController {
     ){
         return evaluationService.saveCourseEvaluation(courseCode,courseObjective,contentCoverage,assessmentMode,
                 teachingMethods,updateLectureNotes,linkTheoryPractise,seminarsTutorials,courseRelevance);
+    }
+
+    @CrossOrigin()
+    @GetMapping("/particulars")
+    public ResponseEntity<PageResponse<Object[]>> getParticulars(
+            @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = "10") int pageSize
+    ){
+        try {
+            if (pageNumber < 0 || pageSize <= 0){
+                throw new HandleExceptions("Invalid page number or size");
+            }
+
+            Pageable pages = PageRequest.of(pageNumber,pageSize, Sort.by("courseCode"));
+            Page<Object[]> response = evaluationService.getParticulars(pages);
+
+            PageResponse<Object[]> pageResponse = new PageResponse<>(
+                    response.getContent(),
+                    response.getTotalPages(),
+                    response.getNumberOfElements()
+            );
+
+            return new ResponseEntity<>(pageResponse, HttpStatus.OK);
+
+        }catch (NotFoundExceptions | HandleExceptions handler){
+            throw new HandleExceptions("Error: "+handler.getMessage());
+        }
     }
 }
