@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "/evaluation")
 @RequiredArgsConstructor
+@CrossOrigin
 public class EvaluationController {
 
     private final EvaluationServiceImpl evaluationService;

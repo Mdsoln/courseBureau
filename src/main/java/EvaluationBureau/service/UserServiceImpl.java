@@ -37,7 +37,7 @@ public class UserServiceImpl implements BaseService {
 
         User user = new User();
         user.setEmail(payload.getEmail());
-        user.setUserRegNo(payload.getRegNo());
+        user.setRegistration(payload.getRegNo());
         user.setMobileNumber(payload.getMobile());
         user.setPassword(passwordEncoder.encode(payload.getPassword()));
         if (payload.getRegNo().startsWith("20") || payload.getRegNo().contains("-04-")){
@@ -56,10 +56,11 @@ public class UserServiceImpl implements BaseService {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             request.getUsername(),
+//                            request.getRegNo(),
                             request.getPassword()
                     )
             );
-            var user = repository.findByEmail(request.getUsername());
+            var user = repository.findByRegistration(request.getUsername());
             var token = jwtService.generateToken(user);
             return ResponseEntity.ok(AuthResponse.builder().token(token).build());
         }catch (AuthenticationException handleExceptions){
